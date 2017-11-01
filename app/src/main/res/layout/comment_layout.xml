@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginTop="8dp"
+    android:clickable="true"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_marginTop="4dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:src="@drawable/images"
+        android:id="@+id/PROFILE_PICTURE_OTHER"
+        android:layout_weight="0.16" />
+
+
+        <TextView
+            android:id="@+id/profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:textSize="17sp"
+            android:layout_toRightOf="@id/PROFILE_PICTURE_OTHER"
+            android:layout_toEndOf="@id/PROFILE_PICTURE_OTHER"
+            android:text="Shashank Singh commented on your post"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
+
+        <TextView
+            android:id="@+id/comment_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="normal"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            android:layout_below="@id/profile_name"
+            android:layout_marginLeft="64dp"
+            android:layout_marginStart="64dp"
+            android:text="2h"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
+
+
+
+
+</RelativeLayout>

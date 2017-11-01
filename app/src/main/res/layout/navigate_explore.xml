@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView
+    android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="10dp"
+    card_view:contentPadding="10dp"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+<LinearLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:layout_marginTop="2dp"
+        android:text="You've reached the end of your feed"
+        android:id="@+id/constanttext"
+        android:layout_gravity="center_horizontal"
+        />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:id="@+id/button2"
+        android:text="Explore Latest Tales Now"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:textColor="@color/colorPrimary"
+        />
+</LinearLayout>
+
+    </android.support.v7.widget.CardView>

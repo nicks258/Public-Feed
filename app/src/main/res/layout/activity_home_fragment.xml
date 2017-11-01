@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:paddingLeft="2dp"
+    android:paddingRight="2dp"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context="com.writm.writm.NavigationDrawerActivity"
+    android:weightSum="1">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="39dp"/>
+
+    <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/progressBarCircularIndeterminate"
+        android:layout_width="160dp"
+        android:layout_height="4dp"
+        android:indeterminate="true"
+        app:spb_sections_count="4"
+        android:layout_centerInParent="true"
+        app:spb_color="@color/colorAccent"
+        app:spb_speed="2.0"
+        app:spb_stroke_width="4dp"
+        app:spb_stroke_separator_length="4dp"
+        app:spb_reversed="false"
+        app:spb_mirror_mode="false"
+        app:spb_progressiveStart_activated="true"
+        app:spb_progressiveStart_speed="1.5"
+        app:spb_progressiveStop_speed="3.4"
+        />
+
+</RelativeLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/top_menu"
+        android:checkableBehavior="single">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home" />
+        <item
+            android:id="@+id/navigation_explore"
+            android:icon="@drawable/ic_action_explore"
+            android:title="Explore" />
+    <item
+        android:id="@+id/navigation_write"
+        android:icon="@drawable/ic_action_write"
+        android:title="Write" />
+    <item
+        android:id="@+id/navigation_search"
+        android:icon="@drawable/ic_action_search"
+        android:title="Search" />
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_action_name"
+        android:title="Profile" />
+        </group>
+    <group
+        android:id="@+id/bottom_menu">
+    <item
+        android:id="@+id/navigation_about"
+        android:title="Contact" />
+    <item
+        android:id="@+id/contact_us"
+        android:title="Privacy Policy" />
+        <item
+            android:id="@+id/log_out"
+            android:title="Log Out"/>
+</group>
+</menu>

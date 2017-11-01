@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/writmlogoblue"
+        android:layout_marginTop="120dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Let's get Creative!"
+        android:id="@+id/title_writm"
+        android:textStyle="bold"
+       />
+
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginTop="120dp"
+        android:id="@+id/google_signin"
+        android:src="@drawable/google"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:padding="0dp"
+        style="?android:attr/borderlessButtonStyle"
+        />
+
+    <FrameLayout
+        android:id="@+id/FrameLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <com.facebook.login.widget.LoginButton
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:id="@+id/fb_signin" />
+
+
+        <ImageButton
+            android:id="@+id/fb"
+            android:layout_width="match_parent"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/facebook"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            style="?android:attr/borderlessButtonStyle"
+            android:padding="0dp"/>
+    </FrameLayout>
+
+
+
+</LinearLayout>

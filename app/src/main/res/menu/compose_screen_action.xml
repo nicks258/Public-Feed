@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="fragment.ComposeFragment"
+    android:layout_width="wrap_content"
+    android:label="Compose"
+    android:layout_height="wrap_content"
+    >
+    <!--<item
+        android:id="@+id/compose_copyright"
+        android:icon="@drawable/ic_action_copyright"
+        android:orderInCategory="2"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/compose_download"
+        android:icon="@drawable/ic_action_download"
+        android:orderInCategory="1"
+        app:showAsAction="always"/>-->
+    <item
+        android:id="@+id/compose_next"
+        android:icon="@drawable/tick_mark"
+        app:showAsAction="always"
+        android:orderInCategory="3"/>
+
+
+
+</menu>

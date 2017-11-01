@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+  >
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="?attr/colorPrimary"
+                    app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </android.support.design.widget.AppBarLayout>
+
+        <include layout="@layout/content_profile" />
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+           >
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="70dp"
+                    android:id="@+id/view2"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    >
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/circular_profile"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            app:civ_border_width="2dp"
+                            app:civ_border_color="#ffffff"/>
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/NAME"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/view2"
+                    android:ems="10"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/half_black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/edit_icon"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_above="@id/STATUS"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    app:srcCompat="@drawable/edit_profile" />
+
+                <TextView
+                    android:id="@+id/STATUS"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/NAME"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_horizontal"
+                    android:maxLines="2"
+                    android:textColor="@color/black_overlay"
+                    android:textSize="16sp" />
+
+                <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/progressbar_profileloading"
+                    android:layout_width="160dp"
+                    android:layout_height="4dp"
+                    android:indeterminate="true"
+                    app:spb_sections_count="4"
+                    android:layout_centerInParent="true"
+                    app:spb_color="@color/colorAccent"
+                    app:spb_speed="2.0"
+                    app:spb_stroke_width="4dp"
+                    app:spb_stroke_separator_length="4dp"
+                    app:spb_reversed="false"
+                    app:spb_mirror_mode="false"
+                    app:spb_progressiveStart_activated="true"
+                    app:spb_progressiveStart_speed="1.5"
+                    app:spb_progressiveStop_speed="3.4"
+                    />
+
+                <TextView
+                    android:id="@+id/TALES"
+                    android:layout_width="126dp"
+                    android:layout_height="69dp"
+                    android:layout_alignTop="@+id/FOLLOWERS"
+                    android:layout_toEndOf="@+id/FOLLOWERS"
+                    android:layout_toRightOf="@+id/FOLLOWERS"
+                    android:gravity="center"
+                    android:text="Tales"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/black_overlay"
+                    android:textStyle="bold"
+                    android:layout_below="@id/STATUS" />
+
+                <TextView
+                    android:id="@+id/FOLLOWERS"
+                    android:layout_width="126dp"
+                    android:layout_height="69dp"
+                    android:layout_alignTop="@+id/FOLLOWING"
+                    android:layout_toEndOf="@+id/FOLLOWING"
+                    android:layout_toRightOf="@id/FOLLOWING"
+                    android:gravity="center"
+                    android:text="Followers"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/black_overlay"
+                    android:textStyle="bold"
+                    android:layout_below="@id/STATUS" />
+
+
+                <TextView
+                    android:id="@+id/FOLLOWING"
+                    android:layout_width="126dp"
+                    android:layout_height="69dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/STATUS"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:layout_marginBottom="4dp"
+                    android:text="Following"
+                    android:textColor="@color/black_overlay"
+                    android:textStyle="bold"
+                     />
+
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="6dp"
+                    android:layout_above="@id/grid"
+                    android:background="@color/light_black"/>
+
+                <GridLayout
+                    android:id="@+id/gridLayout"
+                    android:layout_width="368dp"
+                    android:layout_height="117dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_below="@+id/TALES"
+                    android:layout_centerHorizontal="true">
+
+                </GridLayout>
+
+                <GridView
+                    android:id="@+id/grid"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/TALES"
+                    android:clickable="true"
+                    android:columnWidth="100dp"
+                    android:drawSelectorOnTop="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:horizontalSpacing="1dp"
+                    android:numColumns="auto_fit"
+                    android:stretchMode="columnWidth"
+                    android:verticalSpacing="1dp">
+
+                </GridView>
+
+        </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>
+

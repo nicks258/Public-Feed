@@ -1,0 +1,149 @@
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <RelativeLayout
+            android:id="@+id/image_layout_zone"
+            android:layout_width="match_parent"
+            android:layout_height="478dp">
+
+            <ImageView
+                android:id="@+id/image_chosen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:id="@+id/image_chosen_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_margin="1dp"
+                android:lineSpacingExtra="5dp"
+                android:gravity="center"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                />
+
+            <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/progressbar_imageloading"
+                android:layout_width="160dp"
+                android:layout_height="4dp"
+                android:indeterminate="true"
+                app:spb_sections_count="4"
+                android:layout_centerInParent="true"
+                app:spb_color="@color/colorAccent"
+                app:spb_speed="2.0"
+                app:spb_stroke_width="4dp"
+                app:spb_stroke_separator_length="4dp"
+                app:spb_reversed="false"
+                app:spb_mirror_mode="false"
+                app:spb_progressiveStart_activated="true"
+                app:spb_progressiveStart_speed="1.5"
+                app:spb_progressiveStop_speed="3.4"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:id="@+id/copyright_symbol"
+                />
+            <TextView
+                android:id="@+id/copyright_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_toRightOf="@id/copyright_symbol"
+                android:layout_toEndOf="@id/copyright_symbol"
+             />
+
+        </RelativeLayout>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/writm1"
+                    android:layout_width="107dp"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/writm1" />
+
+                <ImageView
+                    android:id="@+id/writm2"
+                    android:layout_width="107dp"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/writm2" />
+
+                <ImageView
+                    android:id="@+id/writm3"
+                    android:layout_width="107dp"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/writm3" />
+
+                <ImageView
+                    android:id="@+id/writm4"
+                    android:layout_width="107dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/writm4" />
+
+                <ImageView
+                    android:id="@+id/writm5"
+                    android:layout_width="107dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/writm5" />
+
+                <ImageView
+                    android:id="@+id/writm6"
+                    android:layout_width="107dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/writm6" />
+
+                <ImageView
+                    android:id="@+id/writm7"
+                    android:layout_width="107dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/writm7" />
+                <ImageView
+                    android:id="@+id/writm8"
+                    android:layout_width="107dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/writm8" />
+                <ImageView
+                    android:id="@+id/writm10"
+                    android:layout_width="107dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/writm10" />
+                <ImageView
+                    android:id="@+id/writm11"
+                    android:layout_width="107dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/writm11" />
+
+
+            </LinearLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
+

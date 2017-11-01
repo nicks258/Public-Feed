@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
+<ImageView
+    android:layout_width="140dp"
+    android:id="@+id/main_icon"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:src="@drawable/writmlogoblue"
+    android:layout_marginTop="90dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:id="@+id/writm_details"
+        android:textColor="@color/half_black"
+        android:layout_marginRight="16dp"
+        android:text="@string/writm_details"
+        android:layout_marginTop="40dp"
+        android:lineSpacingExtra="5dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/main_icon"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="64dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="60dp"
+        android:id="@+id/home_image"
+        android:layout_below="@id/writm_details"
+        android:src="@drawable/website"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginLeft="70dp"
+        android:foregroundGravity="center_horizontal"
+        android:id="@+id/mail_image"
+        android:layout_marginTop="62dp"
+        android:layout_below="@id/writm_details"
+        android:layout_toRightOf="@id/home_image"
+        android:layout_toEndOf="@id/home_image"
+        android:src="@drawable/email"/>
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="66dp"
+        android:layout_marginRight="66dp"
+        android:id="@+id/phone_image"
+        android:layout_marginTop="58dp"
+        android:layout_below="@id/writm_details"
+        android:src="@drawable/mobile"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="64dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="40dp"
+        android:id="@+id/face_image"
+        android:layout_below="@id/home_image"
+        android:src="@drawable/contactfacebook"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginLeft="70dp"
+        android:foregroundGravity="center_horizontal"
+        android:id="@+id/insta_image"
+        android:layout_below="@id/home_image"
+        android:layout_marginTop="42dp"
+        android:layout_toRightOf="@id/face_image"
+        android:layout_toEndOf="@id/face_image"
+        android:src="@drawable/contactinstagram"/>
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="66dp"
+        android:layout_marginRight="66dp"
+        android:id="@+id/twit_image"
+        android:layout_marginTop="40dp"
+        android:layout_below="@id/home_image"
+        android:src="@drawable/contacttumbler"/>
+
+
+    <ImageView
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginLeft="96dp"
+        android:layout_marginTop="48dp"
+        android:id="@+id/whats_image"
+        android:layout_below="@id/face_image"
+        android:src="@drawable/contactwhatsapp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:layout_toRightOf="@id/whats_image"
+        android:layout_toEndOf="@id/whats_image"
+        android:id="@+id/text"
+        android:textColor="@color/half_black"
+        android:layout_marginTop="60dp"
+        android:layout_below="@id/face_image"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
+        android:text="Join our Whatsapp Group"
+       />
+
+
+
+
+</RelativeLayout>
