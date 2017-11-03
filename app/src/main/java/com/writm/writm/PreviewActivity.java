@@ -1,6 +1,10 @@
 package com.writm.writm;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -8,11 +12,15 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 import com.writm.R;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -37,6 +45,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -65,7 +75,8 @@ public class PreviewActivity extends AppCompatActivity implements GoogleApiClien
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.custom_login_firebase);
-
+        Logger.addLogAdapter( new AndroidLogAdapter());
+        Logger.i("Key Hash-> "+ printHashKey(this));
         textView= (TextView) findViewById(R.id.title_writm);
 
         googleLogin= (ImageButton) findViewById(R.id.google_signin);
@@ -197,6 +208,10 @@ public class PreviewActivity extends AppCompatActivity implements GoogleApiClien
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                             name = user.getDisplayName();
+                          pass = getSaltString();
+                             email =  user.getEmail();
+                          sendJson(name,email,pass);
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -318,7 +333,7 @@ public class PreviewActivity extends AppCompatActivity implements GoogleApiClien
         hashMap.put("username",name);
         hashMap.put("email",email);
         Log.v("CHECK MAIL",name);
-        Log.v("CHECK MAIL",email);
+//        Log.v("CHECK MAIL",email);
         hashMap.put("password",pass);
         //hashMap.put("token",FirebaseInstanceId.getInstance().getToken());
         new SendRequest(this).makeNetworkCall(new SendRequest.VolleyCallback() {
@@ -370,6 +385,22 @@ public class PreviewActivity extends AppCompatActivity implements GoogleApiClien
         return saltStr;
 
     }
+  public static String printHashKey(Context ctx) {
+    // Add code to print out the key hash
+    try {
+      PackageInfo info = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), PackageManager.GET_SIGNATURES);
+      for (Signature signature : info.signatures) {
+        MessageDigest md = MessageDigest.getInstance("SHA");
+        md.update(signature.toByteArray());
+        return Base64.encodeToString(md.digest(), Base64.DEFAULT);
+      }
+    } catch (PackageManager.NameNotFoundException e) {
+      return "SHA-1 generation: the key count not be generated: NameNotFoundException thrown";
+    } catch (NoSuchAlgorithmException e) {
+      return "SHA-1 generation: the key count not be generated: NoSuchAlgorithmException thrown";
+    }
 
+    return "SHA-1 generation: epic failed";
+  }
 
 }

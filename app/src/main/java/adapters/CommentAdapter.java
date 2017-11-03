@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 import com.writm.R;
 import com.writm.writm.ProfileActivity;
 
+import com.squareup.picasso.Picasso;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -28,7 +28,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     private Context context;
     private List<CommentModel> my_data;
-    public CommentAdapter(Context context, List<CommentModel> my_data)
+    public CommentAdapter(Context context,List<CommentModel> my_data)
     {
         this.context=context;
         this.my_data=my_data;
@@ -41,13 +41,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     }
 
     @Override
-    public CommentAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.comment_layout,parent,false);
         return new ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(CommentAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
 
         Picasso.with(context)
                 .load(fbsearch(my_data.get(position).getAuthor_image()))

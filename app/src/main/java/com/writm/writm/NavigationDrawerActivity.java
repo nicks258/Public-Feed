@@ -33,6 +33,8 @@ import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 import com.writm.R;
 import com.writm.service.PostService;
 
@@ -138,12 +140,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
             if(!isWriteStorageAllowed())
                 requestStoragePermission();
         }
-
-
-
-
-
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -158,15 +154,19 @@ public class NavigationDrawerActivity extends AppCompatActivity
         View hView =  navigationView.getHeaderView(0);
         TextView name = (TextView)hView.findViewById(R.id.user_name_navigation);
         String temp1;
-        temp1=FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        Logger.addLogAdapter(new AndroidLogAdapter());
+      temp1=FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+      Logger.i("Name->" + temp1);
         temp1=temp1.substring(0,1).toUpperCase()+temp1.substring(1);
         SpannableString s = new SpannableString(temp1);
         s.setSpan(new TypefaceSpan( this, "josephregular.ttf"), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         name.setText(s);
-        temp1=FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        temp1="" + FirebaseAuth.getInstance().getCurrentUser().getEmail();
         TextView email = (TextView)hView.findViewById(R.id.user_email_navigation);
+        Logger.i("Name->" + FirebaseAuth.getInstance().getCurrentUser().getEmail());
         SpannableString s1 = new SpannableString(temp1);
+        Logger.i("SpannableString->" + s1);
         s1.setSpan(new TypefaceSpan( this, "josephregular.ttf"), 0, s1.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         email.setText(s1);

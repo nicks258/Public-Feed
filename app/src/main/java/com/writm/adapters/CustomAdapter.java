@@ -2,6 +2,7 @@ package com.writm.adapters;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,6 +11,8 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -18,36 +21,53 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.writm.R;
 import com.writm.writm.CommentActivity;
+import com.writm.writm.CommentsActivity;
 import com.writm.writm.LikesView;
 import com.writm.writm.NavigationDrawerActivity;
+import com.writm.writm.NotificationsView;
 import com.writm.writm.ProfileActivity;
 
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.apache.http.protocol.HTTP;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import Network.SendRequest;
 import Utils.Preference;
+import fragment.AlertDialogWithListExample;
+import model.CommentModel;
 import model.MyData;
 
 /**
@@ -57,8 +77,11 @@ import model.MyData;
 public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ViewHolder viewHolder;
     private Context context;
+
     String postId ;
+    private List<CommentModel> data_list;
     String authorId ;
+
     int commentPosition;
     private List<MyData> my_data;
 //    private ProgressBar progressBar;
@@ -70,10 +93,12 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     boolean flag = false;
     String share_Name="";
 
+
+
     @Override
     public int getItemViewType(int position) {
 
-        Log.v("CURRENTSTATUS", String.valueOf(position)+","+ String.valueOf(getItemCount())+","+ String.valueOf(currentlength));
+        Log.v("CURRENTSTATUS",String.valueOf(position)+","+String.valueOf(getItemCount())+","+String.valueOf(currentlength));
 
         if(position==getItemCount()-1 && getItemCount()==currentlength && flag)
             return FOOTER_VIEW;
@@ -86,7 +111,7 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
-    public CustomAdapter(Context context, List<MyData> my_data, boolean flag)
+    public CustomAdapter(Context context, List<MyData> my_data,boolean flag)
     {
         this.context=context;
         this.my_data=my_data;
@@ -101,6 +126,8 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        data_list=new ArrayList<>();
+
         if(viewType==NORMAL_VIEW)
         {
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_card_view,parent,false);
@@ -121,16 +148,15 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        Log.v("VIEWPOSITION", String.valueOf(position));
+        Log.v("onBindViewHolder ",String.valueOf(position));
         Logger.addLogAdapter(new AndroidLogAdapter());
-        Logger.i("pos" + position);
-
+        Logger.i("pos" + holder.getAdapterPosition());
+//        pos = holder.getAdapterPosition();
 
 //        {author_id=2392, post_id=21101, comment=Is+it+original%3F+, user_id=2547}
 
 //        {author_id=2392, post_id=21099, comment=Beautiful+lines, user_id=2547}
-        commentPosition = position;
-        Logger.i("commentPosition->" + commentPosition);
+//        commentPosition = position;
         currentlength=my_data.get(position).getCount();
         switch (holder.getItemViewType())
         {
@@ -195,27 +221,31 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                    viewHolder.user_name.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            Logger.i(" viewHolder.user_name + Clicked");
                             Intent intent = new Intent(context,ProfileActivity.class);
-                            intent.putExtra("auth_id",my_data.get(position).getAuthor_id());
-                            intent.putExtra("isFollow",my_data.get(position).getIsfollow());
-                            intent.putExtra("position",position);
+                            intent.putExtra("auth_id",my_data.get(holder.getAdapterPosition()).getAuthor_id());
+                            intent.putExtra("isFollow",my_data.get(holder.getAdapterPosition()).getIsfollow());
+                            intent.putExtra("position",holder.getAdapterPosition());
                             ((Activity)context).startActivityForResult(intent,33);
                         }
                     });
 
 
                   viewHolder.comments.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
 
-                            Intent intent = new Intent(context,CommentActivity.class);
 
-                            intent.putExtra("post_id",my_data.get(position).getPost_id());
-                            intent.putExtra("author_id",my_data.get(position).getAuthor_id());
-                            intent.putExtra("position",position);
-                            ((Activity)context).startActivityForResult(intent,33);
-                            ((Activity) context).overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
-                        }
+                      @Override
+                      public void onClick(View v) {
+                          load_data();
+                      }
+//                            Intent intent = new Intent(context,CommentActivity.class);
+//
+//                            intent.putExtra("post_id",my_data.get(position).getPost_id());
+//                            intent.putExtra("author_id",my_data.get(position).getAuthor_id());
+//                            intent.putExtra("position",position);
+//                            ((Activity)context).startActivityForResult(intent,33);
+//                            ((Activity) context).overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
+
                     });
 
                    viewHolder.who_liked.setOnClickListener(new View.OnClickListener() {
@@ -230,27 +260,44 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             }
                             else
                             {
-                                Toast.makeText(context,"No Likes for this Tale", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context,"No Likes for this Tale",Toast.LENGTH_SHORT).show();
                             }
 
 
                         }
                     });
 
+                    viewHolder.sendComment.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String message = ((ViewHolder) holder).commentBox.getText().toString();
+                            if (message.equals(""))
+                            {
+                                Toast.makeText(context,"Enter Something",Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Logger.i("msg-> " + ((ViewHolder) holder).commentBox.getText().toString());
+                                postComment(message);
+                                ((ViewHolder) holder).commentBox.setText("");
+                                int count = Integer.parseInt(my_data.get(holder.getAdapterPosition()).getComments()) + 1;
+                                ((ViewHolder) holder).text_comments.setText(String.valueOf(Integer.parseInt(my_data.get(holder.getAdapterPosition()).getComments()) + 1));
+                            }
+                        }
+                    });
                     viewHolder.likes.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(my_data.get(position).getIslike().equals("0"))
-                            {
 
-                               viewHolder.likes.setImageResource(R.drawable.liked_button);
-                                viewHolder.test_likes.setText(String.valueOf(Integer.parseInt(my_data.get(position).getLikes())+1));
-                                my_data.get(position).setIslike("1");
-                                my_data.get(position).setLikes(String.valueOf(Integer.parseInt(my_data.get(position).getLikes())+1));
+                            if (my_data.get(holder.getAdapterPosition()).getIslike().equals("0"))
+                            {
+                                viewHolder.likes.setImageResource(R.drawable.liked_button);
+                                my_data.get(holder.getAdapterPosition()).setIslike("1");
+                                my_data.get(holder.getAdapterPosition()).setLikes(String.valueOf(Integer.parseInt(my_data.get(holder.getAdapterPosition()).getLikes()) + 1));
+                                viewHolder.test_likes.setText(String.valueOf(Integer.parseInt(my_data.get(holder.getAdapterPosition()).getLikes())));
                                 String[] temp_Array = new String[3];
-                                temp_Array[0]="?type=like";
-                                temp_Array[1]="&post_id="+my_data.get(position).getPost_id();
-                                temp_Array[2]="&user_id="+new Preference(context).getUserid();
+                                temp_Array[0] = "?type=like";
+                                temp_Array[1] = "&post_id=" + my_data.get(holder.getAdapterPosition()).getPost_id();
+                                temp_Array[2] = "&user_id=" + new Preference(context).getUserid();
 
                                 MyTask myTask = new MyTask(new FragmentCallback() {
                                     @Override
@@ -260,10 +307,15 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 myTask.execute(temp_Array);
 
                             }
-
-
+                            else {
+                                Logger.i("You Already Liked (:");
+                                viewHolder.likes.setImageResource(R.drawable.liked_button);
+                            }
                         }
+
                     });
+
+
 
                     viewHolder.follow.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -272,7 +324,7 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             {
                                viewHolder.follow.setImageResource(R.drawable.following);
                                 my_data.get(position).setIsfollow("1");
-                                String URL="http://writm.com/social_count.php?type=follow&user_id="+ String.valueOf(new Preference(context).getUserid())+"&author_id="+my_data.get(position).getAuthor_id();
+                                String URL="http://writm.com/social_count.php?type=follow&user_id="+String.valueOf(new Preference(context).getUserid())+"&author_id="+my_data.get(position).getAuthor_id();
                                 new SendRequest(context).makegetNetworkCall(new SendRequest.VolleyCallback() {
                                     @Override
                                     public void onSuccess(String result) {
@@ -370,6 +422,8 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
 
+
+
                     viewHolder.follow.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -405,7 +459,7 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             public void onBitmapLoaded (final Bitmap bitmap, Picasso.LoadedFrom from){
 
                 MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap,"title",null);
-                Toast.makeText(context,"Post Saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"Post Saved",Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -478,8 +532,8 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     private void requestStoragePermission(int code){
-        if (ActivityCompat.shouldShowRequestPermissionRationale((Activity)context, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-            Toast.makeText(context,"Write Permission is required for sharing/saving to work", Toast.LENGTH_SHORT).show();
+        if (ActivityCompat.shouldShowRequestPermissionRationale((Activity)context,Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+            Toast.makeText(context,"Write Permission is required for sharing/saving to work",Toast.LENGTH_SHORT).show();
         }
 
         ActivityCompat.requestPermissions((Activity) context,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},code);
@@ -491,18 +545,18 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return my_data.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    private class ViewHolder extends RecyclerView.ViewHolder{
 
         private ImageView post_image,profile_image;
         private TextView author_id,test_likes,text_comments;
-        public ImageButton comments,likes,share,who_liked,download_Tale,sendComment;
+        ImageButton comments,likes,share,who_liked,download_Tale,sendComment;
         private EditText commentBox;
         private ImageView follow;
         private TextView user_name;
         private ViewHolder(View itemView)
         {
             super(itemView);
-            Logger.i("Initilised");
+
                 Typeface typeface = Typeface.createFromAsset(context.getAssets(), "josephbold.ttf");
                 //author_id= (TextView) itemView.findViewById(R.id.author_id);
                 user_name = (TextView)itemView.findViewById(R.id.profile_name);
@@ -516,28 +570,13 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                 // Comment box
                 commentBox = (EditText) itemView.findViewById(R.id.comment_textview);
-                if (commentBox==null)
-                {
-                    Logger.i("Null OOPS");
-                }
-                else {
-                    Logger.i("What else");
-                }
                 //Image buttons
                 sendComment = (ImageButton) itemView.findViewById(R.id.send_comment);
                 comments= (ImageButton) itemView.findViewById(R.id.comments_button);
                 likes= (ImageButton) itemView.findViewById(R.id.like_button);
                 share= (ImageButton) itemView.findViewById(R.id.share_button);
                 follow= (ImageView) itemView.findViewById(R.id.follow_me_button);
-                sendComment.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String message = commentBox.getText().toString();
-                    Logger.i("msg-> " + message);
-                    postComment(message);
-                    commentBox.setText("");
-                }
-            });
+
             }
 
     }
@@ -694,6 +733,9 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 //
 //                inputManager.hideSoftInputFromWindow((null == context.getCurrentFocus()) ? null : getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     Logger.i("Success -> " + result);
+
+
+                Toast.makeText(context,"Comment added successfully",Toast.LENGTH_LONG).show();
 //                load_data();
                 status[0] =true;
 
@@ -710,7 +752,83 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         },hashMap,url);
         return status[0];
     }
+    private List<CommentModel> load_data() {
 
+//        progressBar.setVisibility(View.VISIBLE);
+
+        String url =  "http://writm.com/get_comment.php";
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        Log.v("JSONRESPONSE",postId);
+        try {
+            jsonObject.put("post_id",postId);
+            jsonArray.put(jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.v("JSONRESPONSE",jsonArray.toString());
+
+
+        new SendRequest(context).makePostArrayRequest(new SendRequest.VolleyCallback() {
+
+            @Override
+            public void onSuccess(String result) {
+//                progressBar.setVisibility(View.GONE);
+
+                Log.v("JSONRESPONSE",result);
+
+
+                if(!result.equals("[]"))
+                {
+                    Intent intent = new Intent(context, CommentsActivity.class);
+                    intent.putExtra("post_id",result);
+//                    bundle.putString("author_id",my_data.get(position).getAuthor_id());
+                    context.startActivity(intent);
+
+
+                    GsonBuilder builder = new GsonBuilder();
+                    builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC);
+                    Gson gson = builder.create();
+                    Type Listype = new TypeToken<List<CommentModel>>() {
+                    }.getType();
+
+                    List<CommentModel> myDataList = new ArrayList<CommentModel>();
+
+                    myDataList=gson.fromJson(result, Listype);
+//                    if(!flag)
+                    data_list.clear();
+                    data_list.addAll(myDataList);
+
+
+                    if(data_list.size()==0)
+                        Toast.makeText(context,"No Comments Yet!",Toast.LENGTH_SHORT).show();
+//                    adapter.addArray(data_list);
+//                    adapter.notifyDataSetChanged();
+
+                }
+
+                else
+                {
+                    Toast.makeText(context,"No Comments Yet!",Toast.LENGTH_SHORT).show();
+                }
+
+
+//                flag=false;
+
+            }
+
+            @Override
+            public void onError(String result) {
+
+//                progressBar.setVisibility(View.GONE);
+                Toast.makeText(context,"Comment not fetched",Toast.LENGTH_LONG).show();
+//                flag=false;
+
+            }
+        },jsonArray,url);
+        return data_list;
+    }
 }
 
 

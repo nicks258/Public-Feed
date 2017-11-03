@@ -5,8 +5,19 @@ package model;
  */
 
 public class CommentModel {
+    public CommentModel(){
 
-    String author,author_image,content,author_id;
+    }
+
+    public CommentModel(String author, String content, String author_image,String author_id) {
+        this.author = author;
+        this.author_id = author_id;
+        this.author_image = author_image;
+        this.content = content;
+    }
+
+    private String author,content,author_image,author_id;
+
 
     public String getAuth_id() {
         return author_id;
