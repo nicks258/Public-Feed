@@ -8,8 +8,8 @@ android {
     applicationId "com.writm"
     minSdkVersion 18
     targetSdkVersion 26
-    versionCode 7
-    versionName "1.1.0"
+    versionCode 9
+    versionName "1.1.2"
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     vectorDrawables.useSupportLibrary = true
   }

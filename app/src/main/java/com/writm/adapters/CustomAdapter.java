@@ -733,7 +733,7 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 //
 //                inputManager.hideSoftInputFromWindow((null == context.getCurrentFocus()) ? null : getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     Logger.i("Success -> " + result);
-
+                    load_data();
 
                 Toast.makeText(context,"Comment added successfully",Toast.LENGTH_LONG).show();
 //                load_data();
