@@ -290,10 +290,10 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                             if (my_data.get(holder.getAdapterPosition()).getIslike().equals("0"))
                             {
-                                viewHolder.likes.setImageResource(R.drawable.liked_button);
+                              ((ViewHolder) holder).likes.setImageResource(R.drawable.liked_button);
                                 my_data.get(holder.getAdapterPosition()).setIslike("1");
                                 my_data.get(holder.getAdapterPosition()).setLikes(String.valueOf(Integer.parseInt(my_data.get(holder.getAdapterPosition()).getLikes()) + 1));
-                                viewHolder.test_likes.setText(String.valueOf(Integer.parseInt(my_data.get(holder.getAdapterPosition()).getLikes())));
+                              ((ViewHolder) holder).test_likes.setText(String.valueOf(Integer.parseInt(my_data.get(holder.getAdapterPosition()).getLikes())));
                                 String[] temp_Array = new String[3];
                                 temp_Array[0] = "?type=like";
                                 temp_Array[1] = "&post_id=" + my_data.get(holder.getAdapterPosition()).getPost_id();
@@ -309,7 +309,7 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             }
                             else {
                                 Logger.i("You Already Liked (:");
-                                viewHolder.likes.setImageResource(R.drawable.liked_button);
+                              ((ViewHolder) holder).likes.setImageResource(R.drawable.liked_button);
                             }
                         }
 
@@ -322,7 +322,7 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         public void onClick(View v) {
                             if(my_data.get(position).getIsfollow().equals("0"))
                             {
-                               viewHolder.follow.setImageResource(R.drawable.following);
+                              ((ViewHolder) holder).follow.setImageResource(R.drawable.following);
                                 my_data.get(position).setIsfollow("1");
                                 String URL="http://writm.com/social_count.php?type=follow&user_id="+String.valueOf(new Preference(context).getUserid())+"&author_id="+my_data.get(position).getAuthor_id();
                                 new SendRequest(context).makegetNetworkCall(new SendRequest.VolleyCallback() {

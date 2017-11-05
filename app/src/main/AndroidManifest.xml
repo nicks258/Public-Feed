@@ -117,6 +117,10 @@
     <activity android:name=".writm.CommentsActivity"
       android:label="Comments"
       android:theme="@android:style/Theme.Holo.Light.Dialog"/>
+
+    <activity
+      android:name=".writm.NotificationsView"
+      android:label="Notifications" />
   </application>
 
 </manifest>
