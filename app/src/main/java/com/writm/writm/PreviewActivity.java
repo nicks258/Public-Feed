@@ -62,12 +62,9 @@ public class PreviewActivity extends AppCompatActivity implements GoogleApiClien
     private String name,email,pass;
     private Uri display_picture;
     Bitmap bitmap;
-
+    private String PACKAGE= "com.writm";
     private CallbackManager mCallbackManager;
     private LoginButton loginButton;
-    private ImageButton googleLogin,fbLogin;
-    private TextView textView;
-
 
 
     @Override
@@ -76,11 +73,23 @@ public class PreviewActivity extends AppCompatActivity implements GoogleApiClien
 
         setContentView(R.layout.custom_login_firebase);
         Logger.addLogAdapter( new AndroidLogAdapter());
-        Logger.i("Key Hash-> "+ printHashKey(this));
-        textView= (TextView) findViewById(R.id.title_writm);
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.writm",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Toast.makeText(PreviewActivity.this,(Base64.encodeToString(md.digest(), Base64.DEFAULT)),Toast.LENGTH_LONG);
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException e) {
 
-        googleLogin= (ImageButton) findViewById(R.id.google_signin);
-        fbLogin= (ImageButton) findViewById(R.id.fb);
+        }
+        TextView textView = (TextView) findViewById(R.id.title_writm);
+
+        ImageButton googleLogin = (ImageButton) findViewById(R.id.google_signin);
+        ImageButton fbLogin = (ImageButton) findViewById(R.id.fb);
 
         Typeface typeface = Typeface.createFromAsset(getAssets(), "josephregular.ttf");
         textView.setTypeface(typeface);
@@ -94,6 +103,10 @@ public class PreviewActivity extends AppCompatActivity implements GoogleApiClien
                 public void onSuccess(LoginResult loginResult) {
                     // App code
                     handleFacebookAccessToken(loginResult.getAccessToken());
+                    Logger.i("Key Hash-> "+ printHashKey(PreviewActivity.this));
+                    generateHashkey();
+                    Logger.i("WTF");
+
                 }
 
                 @Override
@@ -402,5 +415,22 @@ public class PreviewActivity extends AppCompatActivity implements GoogleApiClien
 
     return "SHA-1 generation: epic failed";
   }
-
+    public void generateHashkey(){
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    PACKAGE,
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.i("HashKey" , Base64.encodeToString(md.digest(), Base64.NO_WRAP));
+//                ((TextView) findViewById(R.id.package_name)).setText(info.packageName);
+//                ((TextView) findViewById(R.id.hash_key)).setText();
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.d(TAG, e.getMessage(), e);
+        } catch (NoSuchAlgorithmException e) {
+            Log.d(TAG, e.getMessage(), e);
+        }
+    }
 }

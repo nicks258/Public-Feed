@@ -1,18 +1,24 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:weightSum="10"
     android:layout_height="match_parent"
    >
-
-
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_weight="9.9"
+    android:id="@+id/scrollView"
+    android:layout_marginTop="4dp"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_weight="1"/>
-
+        />
     <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -32,8 +38,14 @@
         app:spb_progressiveStart_speed="1.5"
         app:spb_progressiveStop_speed="3.4"
         />
-
-
+    </RelativeLayout>
+</ScrollView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:id="@+id/divider2"
+        android:background="@color/half_black"
+        android:layout_weight="0"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,13 +75,7 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.2dp"
-        android:id="@+id/divider2"
-        android:layout_above="@id/linearLayout"
-        android:background="@color/half_black"
-        android:layout_weight="0"/>
 
 
-</RelativeLayout>
+
+</LinearLayout>

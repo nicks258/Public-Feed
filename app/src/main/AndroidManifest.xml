@@ -1,126 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  package="com.writm">
-  <uses-permission android:name="android.permission.INTERNET" />
-  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-  <uses-permission android:name="android.permission.CALL_PHONE" />
-  <application
-    android:allowBackup="true"
-    android:icon="@drawable/launchericon"
-    android:label="Writm"
-    android:supportsRtl="true"
-    android:hardwareAccelerated="false"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.writm">
 
-    android:largeHeap="true"
-    android:theme="@style/AppTheme">
-    <meta-data
-      android:name="com.google.firebase.messaging.default_notification_icon"
-      android:resource="@drawable/ic_stat_notifications" />
-    <meta-data android:name="com.google.firebase.messaging.default_notification_color"
-      android:resource="@color/white" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
-    <service android:name="com.writm.service.MyFirebaseMessagingService">
-      <intent-filter>
-        <action android:name="com.google.firebase.MESSAGING_EVENT" />
-      </intent-filter>
-    </service>
-    <service android:name="com.writm.service.FirebaseIDService">
-      <intent-filter>
-        <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-      </intent-filter>
-    </service>
+    <application
+        android:allowBackup="true"
+        android:hardwareAccelerated="false"
+        android:icon="@drawable/launchericon"
+        android:label="Writm"
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_stat_notifications" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/white" />
 
+        <service android:name=".service.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".service.FirebaseIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".service.PostService"
+            android:enabled="true"></service>
 
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
-    <service android:name="com.writm.service.PostService" android:enabled="true">
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
-    </service>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-    <meta-data android:name="com.facebook.sdk.ApplicationId"
-      android:value="@string/facebook_app_id"/>
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".writm.PreviewActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-    <activity android:name="com.facebook.FacebookActivity"
-      android:configChanges=
-        "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-      android:label="@string/app_name" />
-    <activity
-      android:name="com.facebook.CustomTabActivity"
-      android:exported="true">
-      <intent-filter>
-        <action android:name="android.intent.action.VIEW" />
-        <category android:name="android.intent.category.DEFAULT" />
-        <category android:name="android.intent.category.BROWSABLE" />
-        <data android:scheme="@string/fb_login_protocol_scheme" />
-      </intent-filter>
-    </activity>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".writm.NavigationDrawerActivity"
+            android:label="Feed"
+            android:noHistory="false"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="com.writm.writm.NavigationDrawerActivity" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".writm.LikesView" />
+        <activity
+            android:name=".writm.ProfileActivityEdit"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".writm.CommentActivity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="com.example.atreyeeray.writm.CommentActivity" />
 
-    <activity android:name="com.writm.writm.PreviewActivity"
-      android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN" />
-
-        <category android:name="android.intent.category.LAUNCHER" />
-      </intent-filter>
-      <intent-filter>
-        <action android:name="android.intent.action.SEND" />
-
-        <category android:name="android.intent.category.DEFAULT" />
-        <category android:name="android.intent.category.LAUNCHER" />
-      </intent-filter>
-    </activity>
-
-
-
-    <activity
-      android:name="com.writm.writm.NavigationDrawerActivity"
-      android:label="Feed"
-      android:screenOrientation="sensorPortrait"
-      android:windowSoftInputMode="adjustPan"
-      android:theme="@style/AppTheme.NoActionBar">
-      <intent-filter>
-        <action android:name="com.writm.writm.NavigationDrawerActivity" />
-        <category android:name="android.intent.category.DEFAULT" />
-      </intent-filter>
-    </activity>
-
-    <activity android:name="com.writm.writm.LikesView"
-      />
-
-    <activity
-      android:name="com.writm.writm.ProfileActivityEdit"
-      android:theme="@style/AppTheme.NoActionBar"
-      android:screenOrientation="sensorPortrait"/>
-    <activity
-      android:name="com.writm.writm.CommentActivity"
-      android:screenOrientation="sensorPortrait"
-      android:windowSoftInputMode="adjustPan"
-      android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" >
-      <intent-filter>
-        <action android:name="com.example.atreyeeray.writm.CommentActivity" />
-        <category android:name="android.intent.category.DEFAULT" />
-      </intent-filter>
-    </activity>
-    <activity
-      android:name="com.writm.writm.ProfileActivity"
-      android:parentActivityName="com.writm.writm.NavigationDrawerActivity"
-      android:screenOrientation="sensorPortrait"
-      android:theme="@style/AppTheme.NoActionBar">
-    </activity>
-
-    <activity android:name="com.writm.writm.NotificationsTales"
-      android:label="Nanotale"/>
-
-    <activity android:name=".writm.CommentsActivity"
-      android:label="Comments"
-      android:theme="@android:style/Theme.Holo.Light.Dialog"/>
-
-    <activity
-      android:name=".writm.NotificationsView"
-      android:label="Notifications" />
-  </application>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".writm.ProfileActivity"
+            android:parentActivityName=".writm.NavigationDrawerActivity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".writm.NotificationsTales"
+            android:label="Nanotale" />
+        <activity
+            android:name=".writm.CommentsActivity"
+            android:label="Comments"
+            android:theme="@android:style/Theme.Holo.Light.Dialog" />
+        <activity
+            android:name=".writm.NotificationsView"
+            android:label="Notifications" />
+        <activity android:name=".writm.LikesActivity"
+                  android:label="Likes"
+                  android:theme="@android:style/Theme.Holo.Light.Dialog"/>
+    </application>
 
 </manifest>

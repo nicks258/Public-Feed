@@ -39,6 +39,7 @@ import com.squareup.picasso.NetworkPolicy;
 import com.writm.R;
 import com.writm.writm.CommentActivity;
 import com.writm.writm.CommentsActivity;
+import com.writm.writm.LikesActivity;
 import com.writm.writm.LikesView;
 import com.writm.writm.NavigationDrawerActivity;
 import com.writm.writm.NotificationsView;
@@ -68,6 +69,7 @@ import Network.SendRequest;
 import Utils.Preference;
 import fragment.AlertDialogWithListExample;
 import model.CommentModel;
+import model.ListLike;
 import model.MyData;
 
 /**
@@ -174,10 +176,13 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     else
                        viewHolder.likes.setImageResource(R.drawable.liked_button);
 
-                    if(my_data.get(position).getAuthor_id().equals(new Preference(context).getUserid()))
-                       viewHolder.follow.setVisibility(View.GONE);
-                    else
-                       viewHolder.follow.setVisibility(View.VISIBLE);
+                    if(my_data.get(position).getAuthor_id().equals(new Preference(context).getUserid())) {
+                        viewHolder.follow.setVisibility(View.GONE);
+
+                    }
+                    else {
+                        viewHolder.follow.setVisibility(View.VISIBLE);
+                    }
                     if(my_data.get(position).getIsfollow().equals("0"))
                     {
                         viewHolder.follow.setImageResource(R.drawable.follow_me);
@@ -253,10 +258,7 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         public void onClick(View v) {
                             if(Integer.parseInt(my_data.get(position).getLikes())>0)
                             {
-                                Intent intent =new Intent(context,LikesView.class);
-                                intent.putExtra("post_id",my_data.get(position).getPost_id());
-                                intent.putExtra("position",position);
-                                ((Activity)context).startActivityForResult(intent,33);
+                                loadLikes(my_data.get(position).getPost_id());
                             }
                             else
                             {
@@ -787,6 +789,7 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     context.startActivity(intent);
 
 
+
                     GsonBuilder builder = new GsonBuilder();
                     builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC);
                     Gson gson = builder.create();
@@ -828,6 +831,44 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         },jsonArray,url);
         return data_list;
+    }
+    private void loadLikes(String post) {
+
+
+
+        String url =  "http://writm.com/likers_details.php/?post_id="+post;
+        Logger.i("URL->" + url);
+
+        new SendRequest(context).makeArrayRequest(new SendRequest.VolleyCallback() {
+
+            @Override
+            public void onSuccess(String result) {
+
+                if(!result.equals("[]"))
+                {
+
+                    Intent intent = new Intent(context, LikesActivity.class);
+                    intent.putExtra("result",result);
+//                    bundle.putString("author_id",my_data.get(position).getAuthor_id());
+                    context.startActivity(intent);
+
+                }
+                else
+                {
+
+                    Toast.makeText(context,"No Likes!!", Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+
+            @Override
+            public void onError(String result) {
+                Toast.makeText(context,"Likes not fetched", Toast.LENGTH_LONG).show();
+
+
+            }
+        },new JSONArray(),url);
     }
 }
 

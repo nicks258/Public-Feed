@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -29,6 +31,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.List;
 
 import Network.SendRequest;
 import Utils.Preference;
@@ -43,6 +46,7 @@ ProfileActivity extends AppCompatActivity {
     ProgressBar progressBar;
     TextView authorName,followers,following,tales,status;
     CircleImageView imageView;
+    List<String> listID;
     GridLayout layout;
     GridView gridview;
     int position ;
@@ -53,6 +57,7 @@ ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other_profile);
+        Logger.addLogAdapter(new AndroidLogAdapter());
         TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "josephregular.ttf");
         SpannableString s = new SpannableString("Profile");
         s.setSpan(new TypefaceSpan( this, "josephbold.ttf"), 0, s.length(),
@@ -70,6 +75,7 @@ ProfileActivity extends AppCompatActivity {
         status= (TextView) findViewById(R.id.STATUS);
         tales = (TextView) findViewById(R.id.TALES);
         fimageView= (ImageView) findViewById(R.id.follow_me_button);
+        fimageView.setVisibility(View.GONE);
         imageView= (CircleImageView) findViewById(R.id.circular_profile);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -78,39 +84,8 @@ ProfileActivity extends AppCompatActivity {
         Intent intent = getIntent();
         auth_id = intent.getStringExtra("auth_id");
         isFollow=intent.getStringExtra("isFollow");
+        Logger.i("auth-> " +auth_id + "new Pref" + new Preference(this).getUserid() );
 
-        if(auth_id.equals(new Preference(this).getUserid()))
-        {
-            fimageView.setVisibility(View.GONE);
-        }
-        else
-        {
-            if(isFollow!=null && isFollow.equals("0"))
-                fimageView.setImageResource(R.drawable.follow_me);
-            else
-                fimageView.setImageResource(R.drawable.following);
-
-            fimageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(isFollow!=null && isFollow.equals("0"))
-                    {
-                        fimageView.setImageResource(R.drawable.following);
-                        String URL="http://writm.com/social_count.php?type=follow&user_id="+ String.valueOf(new Preference(ProfileActivity.this).getUserid())+"&author_id="+auth_id;
-                        new SendRequest(ProfileActivity.this).makegetNetworkCall(new SendRequest.VolleyCallback() {
-                            @Override
-                            public void onSuccess(String result) {
-                                auth_id="1";
-                            }
-                            @Override
-                            public void onError(String result) {
-                                fimageView.setImageResource(R.drawable.follow_me);
-                            }
-                        },URL);
-                    }
-                }
-            });
-        }
 
 
 
@@ -118,6 +93,7 @@ ProfileActivity extends AppCompatActivity {
         gridAdapter = new GridViewAdapter(this,R.layout.activity_profile,gridData);
         gridview.setAdapter(gridAdapter);
         gridview.setVisibility(View.VISIBLE);
+        getFollowersDetailsButton();
         getUserDetails();
        // getTalesDetails();
 
@@ -170,6 +146,7 @@ ProfileActivity extends AppCompatActivity {
     public void getFollowersDetails()
     {
         String url = "http://writm.com/author_follow_details.php/?id=" + auth_id;
+        Logger.i("url->" + url);
         progressBar.setVisibility(View.VISIBLE);
       new SendRequest(this).makegetNetworkCall(new SendRequest.VolleyCallback() {
           @Override
@@ -186,6 +163,7 @@ ProfileActivity extends AppCompatActivity {
                       String follower_name = jsonobject.getString("follower_name");
                       String follower_image = jsonobject.getString("follower_image");
                       String follower_auth_id = jsonobject.getString("follower_auth_id");
+
                       item.setAuthID(follower_auth_id);
                       item.setTitle(follower_name);
                       item.setImage(follower_image);
@@ -218,6 +196,7 @@ ProfileActivity extends AppCompatActivity {
     public void getFollowingDetails()
     {
         String url = "http://writm.com/author_follow_details.php/?id=" + auth_id;
+        Logger.i("url->" + url);
         progressBar.setVisibility(View.VISIBLE);
 
         new SendRequest(this).makegetNetworkCall(new SendRequest.VolleyCallback() {
@@ -405,5 +384,77 @@ ProfileActivity extends AppCompatActivity {
         mIntent.putExtra("position",position);
         setResult(RESULT_OK, mIntent);
         super.onBackPressed();
+    }
+    private void followButton(boolean isFollow)
+    {
+        fimageView.setVisibility(View.VISIBLE);
+        Logger.i("Val 0>" + isFollow);
+        if(!isFollow)
+        {
+            fimageView.setImageResource(R.drawable.follow_me);
+            fimageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    {
+                        fimageView.setImageResource(R.drawable.following);
+                        String URL="http://writm.com/social_count.php?type=follow&user_id="+ String.valueOf(new Preference(ProfileActivity.this).getUserid())+"&author_id="+auth_id;
+                        new SendRequest(ProfileActivity.this).makegetNetworkCall(new SendRequest.VolleyCallback() {
+                            @Override
+                            public void onSuccess(String result) {
+                                auth_id="1";
+                            }
+                            @Override
+                            public void onError(String result) {
+                                fimageView.setImageResource(R.drawable.follow_me);
+                            }
+                        },URL);
+                    }
+                }
+            });
+        }
+        else
+        {
+            fimageView.setImageResource(R.drawable.following);
+        }
+    }
+    public void getFollowersDetailsButton()
+    {
+        String url = "http://writm.com/author_follow_details.php/?id=" + auth_id;
+        Logger.i("url->" + url);
+        new SendRequest(this).makegetNetworkCall(new SendRequest.VolleyCallback() {
+            @Override
+            public void onSuccess(String response) {
+                JSONObject jsonString = null;
+                try {
+                    jsonString = new JSONObject(response);
+                    System.out.println("RESPONSE" + response);
+                    listID = new ArrayList<String>();
+                    JSONArray followers = jsonString.getJSONArray("followers");
+                    for (int i = 0; i < followers.length(); i++) {
+                        JSONObject jsonobject = followers.getJSONObject(i);
+                        String follower_name = jsonobject.getString("follower_name");
+                        String follower_image = jsonobject.getString("follower_image");
+                        String follower_auth_id = jsonobject.getString("follower_auth_id");
+                        listID.add((follower_auth_id));
+                        System.out.println("FOLLOWER NAME" + follower_name + "FOLLOWER IMAGE" + follower_image);
+                    }
+                    followButton(listID.contains(new Preference(ProfileActivity.this).getUserid()));
+                    String userID = new Preference(ProfileActivity.this).getUserid();
+                    Logger.i("userID->" + userID);
+                    Logger.i("Value->" + listID.contains(new Preference(ProfileActivity.this).getUserid())+"Size->" + listID.size());
+                    progressBar.setVisibility(View.GONE);
+                }
+
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onError(String result) {
+
+            }
+        },url);
+
     }
 }

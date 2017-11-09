@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -163,9 +165,10 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_profile_fragment, container, false);
-
+        Logger.addLogAdapter(new AndroidLogAdapter());
         progressBar= (ProgressBar) view.findViewById(R.id.progressbar_profileloading);
-
+        Log.i("Profile->","Init");
+        Logger.i("Profile Perfect");
         layout = (GridLayout) view.findViewById(R.id.gridLayout);
         authorName= (TextView) view.findViewById(R.id.NAME);
         gridview =(GridView) view.findViewById(R.id.grid);
@@ -182,6 +185,7 @@ public class ProfileFragment extends Fragment {
     {
         String userid = new Preference(getActivity()).getUserid();
         String url = "http://writm.com/author_follow_details.php/?id=" + userid;
+
         progressBar.setVisibility(View.VISIBLE);
 
         // Request a string response from the provided URL.
@@ -189,12 +193,13 @@ public class ProfileFragment extends Fragment {
         new SendRequest(getActivity()).makegetNetworkCall(new SendRequest.VolleyCallback() {
             @Override
             public void onSuccess(String response) {
-
                 progressBar.setVisibility(View.GONE);
                 JSONObject jsonString = null;
                 try {
                     jsonString = new JSONObject(response);
                     JSONArray followers = jsonString.getJSONArray("followers");
+
+
                     GridItem item;
                     for(int i=0;i< followers.length();i++)
                     {
@@ -210,6 +215,7 @@ public class ProfileFragment extends Fragment {
 
                         //System.out.println("FOLLOWER NAME" + follower_name + "FOLLOWER IMAGE" +follower_image);
                     }
+
                     gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -236,11 +242,15 @@ public class ProfileFragment extends Fragment {
     {
         String userid = new Preference(getActivity()).getUserid();
         String url = "http://writm.com/author_follow_details.php/?id=" + userid;
+        Logger.addLogAdapter(new AndroidLogAdapter());
+        Logger.i("URL->" + url);
+        Logger.i("userid->" + userid);
         progressBar.setVisibility(View.VISIBLE);
 
         new SendRequest(getActivity()).makegetNetworkCall(new SendRequest.VolleyCallback() {
             @Override
             public void onSuccess(String response) {
+                Logger.json(response);
                 progressBar.setVisibility(View.GONE);
                 JSONObject jsonString = null;
                 try {

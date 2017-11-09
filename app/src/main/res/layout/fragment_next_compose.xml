@@ -141,7 +141,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/writm11" />
-
+                <ImageView
+                    android:id="@+id/writm12"
+                    android:layout_width="107dp"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/writm12" />
+                <ImageView
+                    android:id="@+id/writm13"
+                    android:layout_width="107dp"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/writm13" />
 
             </LinearLayout>
         </HorizontalScrollView>

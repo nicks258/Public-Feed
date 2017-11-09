@@ -93,7 +93,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         Log.v("NAVIGATION","ONCREATECALLED");
-
+        Logger.addLogAdapter(new AndroidLogAdapter());
         setContentView(R.layout.activity_navigation_drawer);
         TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "josephregular.ttf");
         outer=  findViewById(R.id.outer);
@@ -245,7 +245,10 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 selectedFragment = HomeFragment.newInstance();
                 break;
             case R.id.navigation_write:
-                selectedFragment= ComposeFragment.newInstance();
+                selectedFragment= new ComposeFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("edttext", "From Activity");
+                selectedFragment.setArguments(bundle);
                 break;
             case R.id.navigation_explore:
                 selectedFragment = ExploreFragment.newInstance();
@@ -281,8 +284,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         {
 
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
             fragmentTransaction.replace(R.id.fragment_container,selectedFragment);
-           // fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }
 

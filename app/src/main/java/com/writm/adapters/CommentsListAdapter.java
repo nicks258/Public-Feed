@@ -35,8 +35,8 @@ import model.CommentModel;
 public class CommentsListAdapter extends ArrayAdapter<CommentModel> {
     private final List<CommentModel> list;
     private final Activity context;
-    Typeface typeface;
-    static class ViewHolder {
+    private Typeface typeface;
+    private static class ViewHolder {
         protected TextView name;
         ImageView profilePic;
         TextView flag;
@@ -74,6 +74,7 @@ public class CommentsListAdapter extends ArrayAdapter<CommentModel> {
                 Intent intent = new Intent(context, ProfileActivity.class);
                 intent.putExtra("auth_id",list.get(position).getAuth_id());
                 context.startActivity(intent);
+                context.finish();
             }
         });
 

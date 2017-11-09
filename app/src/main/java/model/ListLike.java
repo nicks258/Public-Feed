@@ -6,6 +6,15 @@ package model;
 
 public class ListLike {
 
+    public ListLike(String liker_id, String liker_name, String liker_image) {
+        this.liker_id = liker_id;
+        this.liker_name = liker_name;
+        this.liker_image = liker_image;
+    }
+
+    public ListLike() {
+    }
+
     String liker_id,liker_name,liker_image;
 
     public String getLikers_id() {

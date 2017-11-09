@@ -2,7 +2,9 @@ package fragment;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -54,7 +56,8 @@ public class ComposeNextFragment extends Fragment {
 
 
     ProgressBar progressBar;
-    ImageView image_1,image_2,image_3,image_4,image_5,image_6,image_7,image_8,image_10,image_11,image_chosen;
+    ImageView image_1,image_2,image_3,image_4,image_5,image_6,image_7,image_8,image_10,
+            image_11,image_12,image_13,image_chosen;
     String title,quote,tags,name;
     TextView QUOTE,NAME,COPYRIGHT;
     Bitmap bitmap;
@@ -73,7 +76,10 @@ public class ComposeNextFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         setImage();
         hideSoftKeyboard();
-
+        SharedPreferences settings = getActivity().getSharedPreferences("WRITE_TALE", Context.MODE_PRIVATE);
+        settings.edit().remove("title").apply();
+        settings.edit().remove("content").apply();
+        settings.edit().remove("tag").commit();
         Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "josephinslabregular.ttf");
 
         QUOTE.setTypeface(typeface);
@@ -129,6 +135,8 @@ public class ComposeNextFragment extends Fragment {
         image_8= (ImageView) view.findViewById(R.id.writm8);
         image_10= (ImageView) view.findViewById(R.id.writm10);
         image_11= (ImageView) view.findViewById(R.id.writm11);
+        image_12= (ImageView) view.findViewById(R.id.writm12);
+        image_13= (ImageView) view.findViewById(R.id.writm13);
 
         image_chosen = (ImageView)view.findViewById(R.id.image_chosen);
         //copyright = (ImageView)findViewById(R.id.copyright_image);
@@ -171,9 +179,9 @@ public class ComposeNextFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 image_chosen.setImageResource(R.drawable.writm3);
-                QUOTE.setTextColor(Color.BLACK);
-                NAME.setTextColor(Color.BLACK);
-                COPYRIGHT.setTextColor(Color.BLACK);
+                QUOTE.setTextColor(Color.WHITE);
+                NAME.setTextColor(Color.WHITE);
+                COPYRIGHT.setTextColor(Color.WHITE);
             }
         });
         image_4.setOnClickListener(new View.OnClickListener() {
@@ -189,9 +197,9 @@ public class ComposeNextFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 image_chosen.setImageResource(R.drawable.writm5);
-                QUOTE.setTextColor(Color.BLACK);
-                NAME.setTextColor(Color.BLACK);
-                COPYRIGHT.setTextColor(Color.BLACK);
+                QUOTE.setTextColor(Color.WHITE);
+                NAME.setTextColor(Color.WHITE);
+                COPYRIGHT.setTextColor(Color.WHITE);
             }
         });
         image_6.setOnClickListener(new View.OnClickListener() {
@@ -235,11 +243,30 @@ public class ComposeNextFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 image_chosen.setImageResource(R.drawable.writm11);
+                QUOTE.setTextColor(Color.WHITE);
+                NAME.setTextColor(Color.WHITE);
+                COPYRIGHT.setTextColor(Color.WHITE);
+            }
+        });
+        image_12.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                image_chosen.setImageResource(R.drawable.writm12);
                 QUOTE.setTextColor(Color.BLACK);
                 NAME.setTextColor(Color.BLACK);
                 COPYRIGHT.setTextColor(Color.BLACK);
             }
         });
+        image_13.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                image_chosen.setImageResource(R.drawable.writm13);
+                QUOTE.setTextColor(Color.WHITE);
+                NAME.setTextColor(Color.WHITE);
+                COPYRIGHT.setTextColor(Color.WHITE);
+            }
+        });
+
         title = getArguments().getString("TITLE");
         quote = getArguments().getString("QUOTE");
         tags = getArguments().getString("TAGS");

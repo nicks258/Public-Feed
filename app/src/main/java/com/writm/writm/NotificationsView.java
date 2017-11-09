@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 import com.writm.R;
 import com.writm.adapters.NotificationAdapter;
 
@@ -66,6 +68,8 @@ public class NotificationsView extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
 
         String url =  "http://writm.com/app_notifications.php/?author_id="+new Preference(this).getUserid();
+        Logger.addLogAdapter(new AndroidLogAdapter());
+        Logger.i("url->" + url);
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = new JSONObject();
 
